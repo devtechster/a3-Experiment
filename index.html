@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 10, bottom: 10, left: 10},
+      width = 445 - margin.left - margin.right,
+      height = 445 - margin.top - margin.bottom;
+    
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+            function drawTreemap(data) {
+                // set the dimensions and margins of the graph
+                var margin = {top: 10, right: 10, bottom: 10, left: 10},
+                    width = 445 - margin.left - margin.right,
+                    height = 445 - margin.top - margin.bottom;
+                
+                // append the svg object to the body of the page
+                var svg = d3.select("#my_dataviz")
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
+                
+                // stratify the data: reformatting for d3.js
+                var root = d3.stratify()
+                    .id(function(d) { return d.name; })   // Name of the entity
+                    .parentId(function(d) { return d.parent; })   // Name of the parent
+                    (data);
+                
+                root.sum(function(d) { return +d.value; });   // Compute the numeric value for each entity
+                
+                // Then d3.treemap computes the position of each element of the hierarchy
+                // The coordinates are added to the root object above
+                d3.treemap()
+                    .size([width, height])
+                    .padding(4)
+                    (root);
+                
+                // use this information to add rectangles:
+                svg.selectAll("rect")
+                    .data(root.leaves())
+                    .enter()
+                    .append("rect")
+                    .attr('x', function (d) { return d.x0; })
+                    .attr('y', function (d) { return d.y0; })
+                    .attr('width', function (d) { return d.x1 - d.x0; })
+                    .attr('height', function (d) { return d.y1 - d.y0; })
+                    .style("stroke", "black")
+                    .style("fill", "#69b3a2");
+                
+                // and to add the text labels
+                svg.selectAll("text")
+                    .data(root.leaves())
+                    .enter()
+                    .append("text")
+                    .attr("x", function(d){ return d.x0+10; })    // +10 to adjust position (more right)
+                    .attr("y", function(d){ return d.y0+20; })    // +20 to adjust position (lower)
+                    .text(function(d){ return d.data.name; })
+                    .attr("font-size", "15px")
+                    .attr("fill", "white");
+        }
+
+// Update data1
+var data1 = [
+    { name: "Root", parent: "", value: null },
+    { name: "A", parent: "Root", value: 30 },
+    { name: "B", parent: "Root", value: 40 },
+    { name: "C", parent: "Root", value: 50 },
+    { name: "D", parent: "Root", value: 20 }
+    // Add more data points...
+];
+
+// Update data2
+var data2 = [
+    { name: "Root", parent: "", value: null },
+    { name: "X", parent: "Root", value: 25 },
+    { name: "Y", parent: "Root", value: 35 },
+    { name: "Z", parent: "Root", value: 45 }
+    // Add more data points...
+];
+
+// Update data3
+var data3 = [
+    { name: "Root", parent: "", value: null },
+    { name: "P", parent: "Root", value: 60 },
+    { name: "Q", parent: "Root", value: 30 },
+    { name: "R", parent: "Root", value: 50 },
+    { name: "S", parent: "Root", value: 20 },
+    { name: "T", parent: "Root", value: 40 }
+    // Add more data points...
+];
+
+// Update data4
+var data4 = [
+    { name: "Root", parent: "", value: null },
+    { name: "One", parent: "Root", value: 25 },
+    { name: "Two", parent: "Root", value: 35 },
+    { name: "Three", parent: "Root", value: 45 },
+    { name: "Four", parent: "Root", value: 20 }
+    // Add more data points...
+];
+
+// Update data5
+var data5 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Apple", parent: "Root", value: 45 },
+    { name: "Banana", parent: "Root", value: 35 },
+    { name: "Orange", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data6
+var data6 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Dog", parent: "Root", value: 30 },
+    { name: "Cat", parent: "Root", value: 20 },
+    { name: "Bird", parent: "Root", value: 40 },
+    { name: "Fish", parent: "Root", value: 35 }
+    // Add more data points...
+];
+
+// Update data7
+var data7 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Red", parent: "Root", value: 20 },
+    { name: "Green", parent: "Root", value: 30 },
+    { name: "Blue", parent: "Root", value: 40 },
+    { name: "Yellow", parent: "Root", value: 35 }
+    // Add more data points...
+];
+
+// Update data8
+var data8 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Tokyo", parent: "Root", value: 35 },
+    { name: "New York", parent: "Root", value: 45 },
+    { name: "London", parent: "Root", value: 40 },
+    { name: "Paris", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data9
+var data9 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Monday", parent: "Root", value: 20 },
+    { name: "Tuesday", parent: "Root", value: 30 },
+    { name: "Wednesday", parent: "Root", value: 40 },
+    { name: "Thursday", parent: "Root", value: 35 },
+    { name: "Friday", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data10
+var data10 = [
+    { name: "Root", parent: "", value: null },
+    { name: "January", parent: "Root", value: 25 },
+    { name: "February", parent: "Root", value: 35 },
+    { name: "March", parent: "Root", value: 45 },
+    { name: "April", parent: "Root", value: 20 }
+    // Add more data points...
+];
+
+// Update data11
+var data11 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Circle", parent: "Root", value: 20 },
+    { name: "Square", parent: "Root", value: 30 },
+    { name: "Triangle", parent: "Root", value: 40 },
+    { name: "Rectangle", parent: "Root", value: 35 }
+    // Add more data points...
+];
+
+// Update data12
+var data12 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Pizza", parent: "Root", value: 35 },
+    { name: "Burger", parent: "Root", value: 45 },
+    { name: "Sushi", parent: "Root", value: 40 },
+    { name: "Pasta", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data13
+var data13 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Doctor", parent: "Root", value: 20 },
+    { name: "Engineer", parent: "Root", value: 30 },
+    { name: "Artist", parent: "Root", value: 40 },
+    { name: "Scientist", parent: "Root", value: 35 }
+    // Add more data points...
+];
+
+// Update data14
+var data14 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Sun", parent: "Root", value: 35 },
+    { name: "Moon", parent: "Root", value: 25 },
+    { name: "Stars", parent: "Root", value: 45 },
+    { name: "Planets", parent: "Root", value: 30 }
+    // Add more data points...
+];
+
+// Update data15
+var data15 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Lion", parent: "Root", value: 40 },
+    { name: "Tiger", parent: "Root", value: 25 },
+    { name: "Elephant", parent: "Root", value: 35 },
+    { name: "Giraffe", parent: "Root", value: 45 }
+    // Add more data points...
+];
+
+// Update data16
+var data16 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Book", parent: "Root", value: 25 },
+    { name: "Pen", parent: "Root", value: 35 },
+    { name: "Pencil", parent: "Root", value: 45 },
+    { name: "Notebook", parent: "Root", value: 30 }
+    // Add more data points...
+];
+
+// Update data17
+var data17 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Football", parent: "Root", value: 35 },
+    { name: "Basketball", parent: "Root", value: 45 },
+    { name: "Soccer", parent: "Root", value: 40 },
+    { name: "Tennis", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data18
+var data18 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Coffee", parent: "Root", value: 40 },
+    { name: "Tea", parent: "Root", value: 25 },
+    { name: "Juice", parent: "Root", value: 45 },
+    { name: "Water", parent: "Root", value: 35 }
+    // Add more data points...
+];
+
+// Update data19
+var data19 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Tree", parent: "Root", value: 30 },
+    { name: "Flower", parent: "Root", value: 45 },
+    { name: "Grass", parent: "Root", value: 35 },
+    { name: "Bush", parent: "Root", value: 25 }
+    // Add more data points...
+];
+
+// Update data20
+var data20 = [
+    { name: "Root", parent: "", value: null },
+    { name: "Car", parent: "Root", value: 25 },
+    { name: "Bicycle", parent: "Root", value: 35 },
+    { name: "Motorcycle", parent: "Root", value: 45 },
+    { name: "Truck", parent: "Root", value: 30 }
+    // Add more data points...
+];
+
+
+// Continue defining data9 to data20 with respective data points...
+drawTreemap(data1);
+drawTreemap(data2);
+drawTreemap(data3);
+drawTreemap(data4);
+drawTreemap(data5);
+drawTreemap(data6);
+drawTreemap(data7);
+drawTreemap(data8);
+drawTreemap(data9);
+drawTreemap(data10);
+drawTreemap(data11);
+drawTreemap(data12);
+drawTreemap(data13);
+drawTreemap(data14);
+drawTreemap(data15);
+drawTreemap(data16);
+drawTreemap(data17);
+drawTreemap(data18);
+drawTreemap(data19);
+drawTreemap(data20);
+                    
+</script>
