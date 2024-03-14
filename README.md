@@ -47,11 +47,17 @@ There's also a huge variance between these charts, chart 7 has the best estimati
 
 Treemaps
 ===
-The chart below shows log errors of 20 treemaps along with the bootstraped confidence intervals.
+The chart below shows log errors of 20 treemaps(by 18 users) along with the bootstraped confidence intervals.
 ![image](https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log1.png)
 ![image](https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log2.png)
 
-* The first thing you might realize is that error bars are not symmetric. When data is not normally distributed, the confidence intervals might naturally be asymmetric. The bootstrap method, which is robust to non-normal distributions, can yield asymmetric confidence intervals that are a more accurate representation of the uncertainty in the estimate.
+* The x-axis of the graph shows the average log error, while the y-axis shows the visualization number. Each data point on the graph represents the average log error for a particular visualization, and the error bars represent the 95% confidence interval for that error.
+
+* The title of the graph is "Average log2Error with 95% Bootstrapped Confidence Intervals for Each Visualization".
+* The x-axis label is "Average log2Error". The y-axis label is "Visualization Number".
+* There are 20 data points in the graph, one for each visualization.
+* The error bars for some visualizations are larger than others, indicating that there is more uncertainty in the estimated average log  error for those visualizations.
+* Overall, the graph can be used to compare the performance of different visualizations based on their average log error. Visualizations with lower average log errors and smaller error bars are considered to be better performing.
 
 * There is a great variance between charts. You can see all the treemaps output in the folder.
 
@@ -65,3 +71,26 @@ Design Achievements
 ===
 * We keep the visualization simple and lean.
 
+**Technical Achievements:**
+
+1. **Random Data Generation:** Implemented a system for generating randomized data for each visualization type, ensuring variability and eliminating bias in the experimental setup.
+
+2. **Random Marking of Data Points:** Developed a feature to randomly mark data points within the generated datasets, enhancing the realism of the experiment and mimicking real-world scenarios.
+
+3. **Error Calculation with Log Error:** Utilized the logarithmic error metric to assess the accuracy of participants' judgments, providing a robust and scalable method for evaluating performance across different visualization types.
+
+4. **Bootstrap Method for Confidence Intervals:** Employed the bootstrap method to compute asymmetric confidence intervals for error estimates, enabling a more accurate representation of uncertainty in the data analysis process.
+
+5. **Sorting and Ranking of Estimations:** Implemented a systematic approach to sort and rank estimations based on error metrics, facilitating comparative analysis and identification of superior visualization techniques.
+
+**Design Achievements:**
+
+1. **Simplicity and Clarity:** Prioritized simplicity and clarity in visualization design, ensuring that participants could easily interpret and compare the presented data without unnecessary complexity.
+
+2. **Lean Visualization Approach:** Adopted a lean visualization approach, minimizing visual clutter and extraneous elements to focus participants' attention on the core aspects of the experiment.
+
+3. **Consistent Visual Language:** Maintained consistency in visual language across all visualization types, promoting ease of understanding and reducing cognitive load for participants navigating the experiment.
+
+4. **User-Friendly Interface:** Designed the experiment interface with user-friendliness in mind, optimizing layout and interaction elements to enhance usability and overall participant experience.
+
+5. **Visual Integrity Preservation:** Ensured the preservation of visual integrity in the presentation of data, avoiding distortion or manipulation that could lead to misleading interpretations by participants.
