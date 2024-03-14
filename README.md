@@ -48,8 +48,8 @@ There's also a huge variance between these charts, chart 7 has the best estimati
 Treemaps
 ===
 The chart below shows log errors of 20 treemaps along with the bootstraped confidence intervals.
-![image](https://github.com/devtechster/a3-Experiment/blob/master/treemaps/treempas_logerror.png?raw=true)
-![image](https://github.com/devtechster/a3-Experiment/assets/30297073/ce2555a4-b839-48dc-9f29-ef146c66716e)
+![image](https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log1.png)
+![image](https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log2.png)
 
 * The first thing you might realize is that error bars are not symmetric. When data is not normally distributed, the confidence intervals might naturally be asymmetric. The bootstrap method, which is robust to non-normal distributions, can yield asymmetric confidence intervals that are a more accurate representation of the uncertainty in the estimate.
 
