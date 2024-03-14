@@ -58,7 +58,6 @@ plt.errorbar(average_errors, y_positions, xerr=error_bars, fmt='o', color='black
 # Labels and title
 plt.ylabel('Visualization Number')
 plt.xlabel('Average log2Error')
-plt.title('Average log2Error with 95% Bootstrapped Confidence Intervals for Each Visualization')
 plt.yticks(y_positions)
 # Show grid and plot
 plt.grid(True, linestyle='--', linewidth=0.5)
@@ -84,7 +83,6 @@ plt.errorbar(sorted_average_errors, sorted_y_positions, xerr=sorted_error_bars, 
 # Labels and title
 plt.ylabel('Visualization Number (Sorted)')
 plt.xlabel('Average log2Error')
-plt.title('Sorted Average log2Error with 95% Bootstrapped Confidence Intervals')
 plt.yticks(sorted_y_positions, labels=[f'Vis. {i+1}' for i in sorted_indices])  # Use the original indices as labels
 # Show grid and plot
 plt.grid(True, linestyle='--', linewidth=0.5)
