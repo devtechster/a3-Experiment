@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+  // set the dimensions and margins of the graph
+  const width = 450,
+    height = 450,
+    margin = 40;
+
+  // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
+  const radius = Math.min(width, height) / 2 - margin;
+
+  // append the svg object to the div called 'my_dataviz'
+  const svg = d3.select("#my_dataviz")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+  // Function to generate random data
+  function generateRandomData() {
+    const numSlices = Math.floor(Math.random() * 6) + 5; // Generate a random number between 5 and 10 for the number of slices
+    const data = {};
+    for (let i = 0; i < numSlices; i++) {
+      data[String.fromCharCode(97 + i)] = Math.floor(Math.random() * 30) + 1; // Generate random values for each slice
+    }
+    return data;
+  }
+
+  const data = generateRandomData();
+
+  // set the color scale
+  const color = d3.scaleOrdinal()
+    .range(["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"]);
+
+  // Compute the position of each group on the pie:
+  const pie = d3.pie()
+    .value(function (d) {
+      return d[1];
+    });
+  const data_ready = pie(Object.entries(data));
+
+  // Define the arc generator
+  const arcGenerator = d3.arc()
+    .innerRadius(0)
+    .outerRadius(radius);
+
+  // Build the pie chart
+  svg
+    .selectAll('path')
+    .data(data_ready)
+    .enter()
+    .append('path')
+    .attr('d', arcGenerator)
+    .attr('fill', function (d) {
+      return (color(d.data.key));
+    })
+    .attr("stroke", "black")
+    .style("stroke-width", "2px")
+    .style("opacity", 0.7);
+
+  // Choose two random slice indices to mark
+  const randomSliceIndices = [];
+  while (randomSliceIndices.length < 2) {
+    let r = Math.floor(Math.random() * data_ready.length);
+    if (randomSliceIndices.indexOf(r) === -1) randomSliceIndices.push(r);
+  }
+
+  // Get values of marked slices to display
+  const titleValues = randomSliceIndices.map(index => data_ready[index].data[1]);
+
+  // Display values of marked slices, so I can calculate
+  svg.append('text')
+    .attr('x', 200)
+    .attr('y', 220)
+    .attr('text-anchor', 'middle')
+    .attr('font-size', '18px')
+    .text(`${titleValues[0]} - ${titleValues[1]}`);
+
+  // Place circles on the marked slices
+  randomSliceIndices.forEach((sliceIndex) => {
+    const slice = data_ready[sliceIndex];
+    const centroid = arcGenerator.centroid(slice);
+
+    svg
+      .append('circle')
+      .attr('cx', centroid[0])
+      .attr('cy', centroid[1])
+      .attr('r', 5)
+      .attr('fill', 'black');
+  });
+</script>

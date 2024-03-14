@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+  // Set the dimensions and margins of the graph
+  const width = 450,
+        height = 450,
+        margin = 40;
+
+  // Append the svg object to the div called 'my_dataviz'
+  const svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", `translate(${margin}, 0)`); 
+
+  const data = {a: 6, b: 28, c: 21, d: 10, e: 15, f: 12, g: 8};
+
+  // Create a scale for your data
+  const xScale = d3.scaleBand()
+    .range([0, width - margin * 2])
+    .domain(Object.keys(data))
+    .padding(0.1);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, d3.max(Object.values(data))])
+    .range([height - margin * 2, 0]); // Invert range for y-axis to go top to bottom
+
+  // Draw bars
+  svg.selectAll("myBar")
+    .data(Object.entries(data))
+    .enter()
+    .append("rect")
+    .attr("x", d => xScale(d[0]))
+    .attr("y", d => yScale(d[1])) 
+    .attr("width", xScale.bandwidth())
+    .attr("height", d => height - margin * 2 - yScale(d[1])) // Height
+    .attr("fill", "#ffffff")
+    .attr("stroke", "black")      
+    .attr("stroke-width", "1px");
+
+  // Choose two random bar indices for placing the dots
+  const randomBarIndices = [];
+  while (randomBarIndices.length < 2) {
+    let r = Math.floor(Math.random() * Object.entries(data).length);
+    if (randomBarIndices.indexOf(r) === -1) randomBarIndices.push(r);
+  }
+
+  // Place a dot on two random bars
+  randomBarIndices.forEach((barIndex) => {
+    const barData = Object.entries(data)[barIndex];
+    const barX = xScale(barData[0]) + xScale.bandwidth() / 2;
+    const barY = yScale(barData[1]); 
+
+    svg
+      .append('circle')
+      .attr('cx', barX)
+      .attr('cy', barY)
+      .attr('r', 5) // Radius
+      .attr('fill', 'black');
+  });
+</script>
