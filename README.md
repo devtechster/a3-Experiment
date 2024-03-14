@@ -62,16 +62,9 @@ The chart below shows log errors of 20 treemaps(by 18 users) along with the boot
 * There is a great variance between charts. You can see all the treemaps output in the folder.
 
 
-Technical Achievements
-===
-* Data is randomly generated and 2 points are randomly marked.
-* Make error plots with calculating Log error.
-
-Design Achievements
-===
-* We keep the visualization simple and lean.
 
 **Technical Achievements:**
+===
 
 1. **Random Data Generation:** Implemented a system for generating randomized data for each visualization type, ensuring variability and eliminating bias in the experimental setup.
 
@@ -84,6 +77,7 @@ Design Achievements
 5. **Sorting and Ranking of Estimations:** Implemented a systematic approach to sort and rank estimations based on error metrics, facilitating comparative analysis and identification of superior visualization techniques.
 
 **Design Achievements:**
+===
 
 1. **Simplicity and Clarity:** Prioritized simplicity and clarity in visualization design, ensuring that participants could easily interpret and compare the presented data without unnecessary complexity.
 
