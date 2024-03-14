@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rectangle Size Estimation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .question-container {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .next-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Rectangle Size Estimation</h2>
+    <p>You are seeing 2 dots in 2 different rectangles; please submit your response by seeing at the figure what do you think the smaller rectangle is WHAT % of big rectangle? For example, if you think the small rectangle is half the size of the big rectangle then submit your response as 50.</p>
+    <form id="response-form">
+        <!-- Question 1 -->
+        <div class="question-container" id="question1">
+            <img src="q1.png" alt="Question 1">
+            <label for="response1">Response for Question 1:</label>
+            <input type="number" id="response1" name="response1" min="1" max="100" required>
+            <button type="button" onclick="showNextQuestion(2)">Next</button>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-container" id="question2" style="display: none;">
+            <img src="q2.png" alt="Question 2">
+            <label for="response2">Response for Question 2:</label>
+            <input type="number" id="response2" name="response2" min="1" max="100">
+            <button type="button" onclick="showNextQuestion(3)">Next</button>
+        </div>
+
+        <!-- Add more question containers here for q3.png, q4.png, ..., q20.png -->
+        <!-- Example: -->
+        <!--
+        <div class="question-container" id="question3" style="display: none;">
+            <img src="q3.png" alt="Question 3">
+            <label for="response3">Response for Question 3:</label>
+            <input type="number" id="response3" name="response3" min="1" max="100">
+            <button type="button" class="next-button" onclick="showNextQuestion(4)">Next</button>
+        </div>
+        -->
+
+        <!-- Repeat for q4.png to q20.png -->
+
+        <button type="submit" class="next-button">Submit Responses</button>
+    </form>
+
+    <script>
+        function showNextQuestion(questionNumber) {
+            var currentResponse = document.getElementById("response" + (questionNumber - 1));
+            if (currentResponse && currentResponse.checkValidity()) {
+                var currentQuestion = document.getElementById("question" + questionNumber);
+                if (currentQuestion) {
+                    currentQuestion.style.display = "block";
+                }
+                var nextButton = document.getElementById("question" + questionNumber).querySelector(".next-button");
+                if (nextButton) {
+                    nextButton.style.display = "inline-block";
+                }
+            } else {
+                alert("Please enter a valid response before proceeding.");
+            }
+        }
+    </script>
+</body>
+</html>

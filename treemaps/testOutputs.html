@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Treemap Images</title>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Load html2canvas library -->
+    <script src="html2canvas.min.js"></script>
+</head>
+<body>
+    <div id="my_dataviz"></div>
+    <script>
+        // set the dimensions and margins of the graph
+        var margin = {top: 10, right: 10, bottom: 10, left: 10},
+            width = 445 - margin.left - margin.right,
+            height = 445 - margin.top - margin.bottom;
+
+        // Function to draw treemap
+        function drawTreemap(data, filename) {
+            // append the svg object to the body of the page
+            var svg = d3.select("#my_dataviz")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+            
+            // stratify the data: reformatting for d3.js
+            var root = d3.stratify()
+                .id(function(d) { return d.name; })   // Name of the entity
+                .parentId(function(d) { return d.parent; })   // Name of the parent
+                (data);
+            
+            root.sum(function(d) { return +d.value; });   // Compute the numeric value for each entity
+            
+            // Then d3.treemap computes the position of each element of the hierarchy
+            // The coordinates are added to the root object above
+            d3.treemap()
+                .size([width, height])
+                .padding(4)
+                (root);
+            
+            // use this information to add rectangles:
+            svg.selectAll("rect")
+                .data(root.leaves())
+                .enter()
+                .append("rect")
+                .attr('x', function (d) { return d.x0; })
+                .attr('y', function (d) { return d.y0; })
+                .attr('width', function (d) { return d.x1 - d.x0; })
+                .attr('height', function (d) { return d.y1 - d.y0; })
+                .style("stroke", "black")
+                .style("fill", "none");
+            
+            // and to add the text labels
+            svg.selectAll("text")
+                .data(root.leaves())
+                .enter()
+                .append("text")
+                .attr("x", function(d){ return d.x0+10; })    // +10 to adjust position (more right)
+                .attr("y", function(d){ return d.y0+20; })    // +20 to adjust position (lower)
+                .text(function(d){ return d.data.name; })
+                .attr("font-size", "15px")
+                .attr("fill", "black");
+
+            // Find max value
+            var max = d3.max(data, function(d) { return +d.value; });
+            
+            // Find half of max value
+            var halfMax = max / 2;
+            
+            // Find the data points corresponding to max and halfMax
+            var maxData = root.leaves().find(function(d) { return +d.data.value === max; });
+            var halfMaxData = root.leaves().find(function(d) { return +d.data.value === halfMax; });
+
+            // Add dots
+            var biggerDot = svg.append("circle")
+                .attr("cx", maxData.x0 + (maxData.x1 - maxData.x0) / 2)
+                .attr("cy", maxData.y0 + (maxData.y1 - maxData.y0) / 2)
+                .attr("r", 5)
+                .style("fill", "black");
+
+            var halfMaxDot = svg.append("circle")
+                .attr("cx", halfMaxData.x0 + (halfMaxData.x1 - halfMaxData.x0) / 2)
+                .attr("cy", halfMaxData.y0 + (halfMaxData.y1 - halfMaxData.y0) / 2)
+                .attr("r", 5)
+                .style("fill", "black");
+
+            // Convert the SVG to a canvas and save as PNG
+            html2canvas(svg.node()).then(function(canvas) {
+                var imgData = canvas.toDataURL("image/png");
+                var a = document.createElement('a');
+                a.href = imgData;
+                a.download = filename + ".png";
+                a.click();
+                // Remove the SVG element
+                svg.remove();
+            });
+        }
+
+        // Update data1
+var data1 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 30 },
+{ name: null, parent: "Root", value: 60 },
+{ name: null, parent: "Root", value: 5 },
+{ name: null, parent: "Root", value: 5 }
+// 
+];
+
+// Update data2
+var data2 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 40 },
+{ name: null, parent: "Root", value: 80 },
+{ name: null, parent: "Root", value: 20 },
+{ name: null, parent: "Root", value: 20 }
+// 
+];
+
+// Update data3
+var data3 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 50 },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 26 },
+{ name: null, parent: "Root", value: 24 },
+{ name: null, parent: "Root", value: 23 }
+// 
+];
+
+// Update data4
+var data4 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 70 },
+{ name: null, parent: "Root", value: 35 },
+{ name: null, parent: "Root", value: 36 },
+{ name: null, parent: "Root", value: 38 }
+// 
+];
+
+// Update data5
+var data5 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 50 },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 12 },
+{ name: null, parent: "Root", value: 13 }
+// 
+];
+
+// Update data6
+var data6 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 22},
+{ name: null, parent: "Root", value: 44 },
+{ name: null, parent: "Root", value: 15},
+{ name: null, parent: "Root", value: 18 }
+// 
+];
+
+// Update data7
+var data7 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 20 },
+{ name: null, parent: "Root", value: 30 },
+{ name: null, parent: "Root", value: 40 },
+{ name: null, parent: "Root", value: 35 }
+// 
+];
+
+// Update data8
+var data8 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 35 },
+{ name: null, parent: "Root", value: 15 },
+{ name: null, parent: "Root", value: 70 },
+{ name: null, parent: "Root", value: 25 }
+// 
+];
+
+// Update data9
+var data9 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 15 },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 10 },
+{ name: null, parent: "Root", value: 20 },
+{ name: null, parent: "Root", value: 30 }
+// 
+];
+
+// Update data10
+var data10 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 12 },
+{ name: null, parent: "Root", value:  50},
+{ name: null, parent: "Root", value: 24 },
+{ name: null, parent: "Root", value: 25 }
+// 
+];
+
+// Update data11
+var data11 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 19 },
+{ name: null, parent: "Root", value: 38 },
+{ name: null, parent: "Root", value: 21 },
+{ name: null, parent: "Root", value: 22 }
+// Add more data points...
+];
+
+// Update data12
+var data12 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 50 }
+// Add more data points...
+];
+
+// Update data13
+var data13 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 6 },
+{ name: null, parent: "Root", value: 52 },
+{ name: null, parent: "Root", value: 6 },
+{ name: null, parent: "Root", value: 26 }
+// Add more data points...
+];
+
+// Update data14
+var data14 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 15 },
+{ name: null, parent: "Root", value: 50 },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 35 }
+// Add more data points...
+];
+
+// Update data15
+var data15 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 16 },
+{ name: null, parent: "Root", value: 48 },
+{ name: null, parent: "Root", value: 26 },
+{ name: null, parent: "Root", value: 24 }
+// Add more data points...
+];
+
+// Update data16
+var data16 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 25 },
+{ name: null, parent: "Root", value: 50 },
+{ name: null, parent: "Root", value: 50 },
+{ name: null, parent: "Root", value: 25 }
+// Add more data points...
+];
+
+// Update data17
+var data17 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 44 },
+{ name: null, parent: "Root", value: 39 },
+{ name: null, parent: "Root", value: 40 },
+{ name: null, parent: "Root", value: 22 }
+// Add more data points...
+];
+
+// Update data18
+var data18 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 88 },
+{ name: null, parent: "Root", value: 46 },
+{ name: null, parent: "Root", value: 45 },
+{ name: null, parent: "Root", value: 44 }
+// Add more data points...
+];
+
+// Update data19
+var data19 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 66 },
+{ name: null, parent: "Root", value: 35 },
+{ name: null, parent: "Root", value: 33 }
+// Add more data points...
+];
+
+// Update data20
+var data20 = [
+{ name: "Root", parent: "", value: null },
+{ name: null, parent: "Root", value: 78 },
+{ name: null, parent: "Root", value: 39 },
+{ name: null, parent: "Root", value: 38 },
+{ name: null, parent: "Root", value: 60 }
+// Add more data points...
+];
+
+
+        // Array of data for each treemap
+        var data = [
+            data1, data2, data3, data4, data5,
+            data6, data7, data8, data9, data10,
+            data11, data12, data13, data14, data15,
+            data16, data17, data18, data19, data20
+        ];
+
+        // Generate and save treemap images
+        for (var i = 0; i < data.length; i++) {
+            drawTreemap(data[i], "treemap_" + (i + 1));
+        }
+    </script>
+</body>
+</html>

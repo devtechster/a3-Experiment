@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 10, bottom: 10, left: 10},
+        width = 445 - margin.left - margin.right,
+        height = 445 - margin.top - margin.bottom;
+    
+    function generateRandomData() {
+        var data = [];
+        var numNodes = Math.floor(Math.random() * 2) + 4; // Random number of nodes between 4 and 5
+        var totalValue = 0;
+        var values = [];
+        for (var i = 0; i < numNodes; i++) {
+            var value = Math.floor(Math.random() * 100) + 1; // Random value between 1 and 100
+            totalValue += value;
+            values.push(value);
+        }
+        // Shuffle values array to ensure points are generated on edges
+        values = shuffleArray(values);
+        data.push({ name: "Root", parent: "", value: null }); // Add root node
+        for (var i = 0; i < numNodes; i++) {
+            data.push({ name: null, parent: "Root", value: values[i] });
+        }
+        return data;
+    }
+
+    // Fisher-Yates shuffle algorithm
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function drawTreemap(data, index) {
+        // append the svg object to the body of the page
+        var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+        
+        // stratify the data: reformatting for d3.js
+        var root = d3.stratify()
+            .id(function(d) { return d.name; })   // Name of the entity
+            .parentId(function(d) { return d.parent; })   // Name of the parent
+            (data);
+        
+        root.sum(function(d) { return +d.value; });   // Compute the numeric value for each entity
+        
+        // Then d3.treemap computes the position of each element of the hierarchy
+        // The coordinates are added to the root object above
+        d3.treemap()
+            .size([width, height])
+            .padding(4)
+            (root);
+        
+        // use this information to add rectangles:
+        svg.selectAll("rect")
+            .data(root.leaves())
+            .enter()
+            .append("rect")
+            .attr('x', function (d) { return d.x0; })
+            .attr('y', function (d) { return d.y0; })
+            .attr('width', function (d) { return d.x1 - d.x0; })
+            .attr('height', function (d) { return d.y1 - d.y0; })
+            .style("stroke", "black")
+            .style("fill", "none");
+        
+        // and to add the text labels
+        svg.selectAll("text")
+            .data(root.leaves())
+            .enter()
+            .append("text")
+            .attr("x", function(d){ return d.x0+10; })    // +10 to adjust position (more right)
+            .attr("y", function(d){ return d.y0+20; })    // +20 to adjust position (lower)
+            .text(function(d){ return d.data.name; })
+            .attr("font-size", "15px")
+            .attr("fill", "black");
+
+        // Find the leaf node with the maximum value
+        var maxLeaf = root.leaves().reduce(function(prev, curr) {
+            return +curr.data.value > +prev.data.value ? curr : prev;
+        });
+
+        // Add a random dot in the leaf node with the maximum value
+        svg.append("circle")
+            .attr("cx", maxLeaf.x0 + Math.random() * (maxLeaf.x1 - maxLeaf.x0))
+            .attr("cy", maxLeaf.y0 + Math.random() * (maxLeaf.y1 - maxLeaf.y0))
+            .attr("r", 2)
+            .style("fill", "black");
+
+        // Find another leaf node (excluding the one with the maximum value)
+        var otherLeaves = root.leaves().filter(function(leaf) {
+            return leaf !== maxLeaf;
+        });
+
+        // Choose a random leaf node from the remaining ones
+        var randomLeaf = otherLeaves[Math.floor(Math.random() * otherLeaves.length)];
+
+        // Add a random dot in the randomly chosen leaf node
+        svg.append("circle")
+            .attr("cx", randomLeaf.x0 + Math.random() * (randomLeaf.x1 - randomLeaf.x0))
+            .attr("cy", randomLeaf.y0 + Math.random() * (randomLeaf.y1 - randomLeaf.y0))
+            .attr("r", 2)
+            .style("fill", "black");
+
+        // Log values to the console
+        console.log("Values for Map " + index + ":");
+        root.leaves().forEach(function(leaf) {
+            console.log(leaf.data.name + ": " + leaf.data.value);
+        });
+    }
+
+    // Generate 20 unique random treemaps
+    for (var i = 0; i < 20; i++) {
+        var data = generateRandomData();
+        drawTreemap(data, i + 1);
+    }
+</script>
