@@ -81,12 +81,35 @@ mean_errors_tr = np.mean(errors_tr, axis=1)
 # Bootstrap for 95% CI
 res_tr = bootstrap((mean_errors_tr,), np.mean, confidence_level=0.95, n_resamples=10000, method='percentile')
 row2 = pd.DataFrame([{"Visualization Type": "Tree Map", "Mean Error": np.mean(mean_errors_tr), "Lower Confidence": res_tr.confidence_interval[0], "Upper Confidence":  res_tr.confidence_interval[1]}])
-df = pd.concat([df, row1, row2], ignore_index=True)
 
 ###
+participant_values_bar =  np.array([
+    [30, 65, 85, 20, 65, 50, 55, 40, 25, 55, 85, 90, 75, 20, 85, 85, 85, 75, 35, 40],
+    [33, 60, 80, 15, 55, 50, 50, 40, 25, 40, 80, 80, 75, 15, 65, 80, 80, 65, 25, 24],
+    [35, 55, 80, 20, 55, 50, 50, 45, 30, 50, 90, 95, 80, 20, 70, 85, 85, 75, 30, 25],
+    [30, 70, 80, 20, 65, 45, 50, 50, 15, 50, 60, 80, 75, 25, 80, 85, 90, 90, 30, 35],
+    [30, 65, 95, 20, 70, 50, 55, 40, 25, 45, 85, 80, 75, 10, 75, 90, 90, 70, 30, 25],
+    [50, 20, 80, 20, 50, 50, 50, 50, 30, 60, 80, 90, 80, 20, 70, 80, 80, 70, 35, 30],
+    [25, 30, 75, 20, 75, 40, 35, 10, 65, 80, 75, 10, 15, 90, 50, 35, 60, 65, 50, 45],
+    [35, 60, 70, 20, 50, 50, 50, 50, 30, 50, 70, 80, 80, 20, 70, 90, 90, 80, 20, 25],
+    [30, 50, 80, 10, 50, 40, 50, 30, 20, 50, 70, 80, 70, 10, 70, 80, 80, 70, 20, 10],
+    [40, 55, 80, 20, 65, 48, 55, 40, 30, 55, 80, 88, 70, 20, 70, 70, 80, 78, 40, 25]
+])
 
+true_values_bar = np.array([
+    35.7 ,57.1, 75, 21.4, 53.3, 47.6, 53.6,42.9,  28.6, 50, 75, 83.3, 75, 21, 66.7, 80,80, 66.7, 28.6, 28.6
+])
 
+# Calculate cm-error for all participants
+errors_bar = np.array([calculate_cm_error(participant, true_values_bar) for participant in participant_values_bar])
 
+# Calculate mean log2Error for each participant
+mean_errors_bar = np.mean(errors_bar, axis=1)
+
+# Bootstrap for 95% CI
+res_bar = bootstrap((mean_errors_bar,), np.mean, confidence_level=0.95, n_resamples=10000, method='percentile')
+row3 = pd.DataFrame([{"Visualization Type": "Bar Chart", "Mean Error": np.mean(mean_errors_bar), "Lower Confidence": res_bar.confidence_interval[0], "Upper Confidence":  res_bar.confidence_interval[1]}])
+df = pd.concat([df, row1, row3, row2], ignore_index=True)
 ##
 
 # Create a horizontal error bar plot
