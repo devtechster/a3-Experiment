@@ -37,6 +37,7 @@ Pie Chart
 Bar Chart
 ===
 The chart below shows log errors of 20 bar charts.
+
 <img src="https://github.com/devtechster/a3-Experiment/blob/master/BarChart/Bar_Logerror-1.png?raw=true" alt="image" width="300" height="200">
 
 There's also a huge variance between these charts, chart 7 has the best estimations.
