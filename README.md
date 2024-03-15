@@ -53,12 +53,15 @@ The chart below shows log errors of 20 treemaps(by 18 users) along with the boot
 
 * The title of the graph is "Average log2Error with 95% Bootstrapped Confidence Intervals for Each Visualization".
 * The x-axis label is "Average log2Error". The y-axis label is "Visualization Number".
-* There are 20 data points in the graph, one for each visualization.
 * The error bars for some visualizations are larger than others, indicating that there is more uncertainty in the estimated average log  error for those visualizations.
 * Overall, the graph can be used to compare the performance of different visualizations based on their average log error. Visualizations with lower average log errors and smaller error bars are considered to be better performing.
 
 * There is a great variance between charts. You can see all the treemaps output in the folder.
 
+Results
+===
+After examining each trial per visualization type, now we compare visualization types.
+![image](https://github.com/devtechster/a3-Experiment/assets/77694285/b2a475e6-b525-4ef2-9644-4accac803f11)
 
 
 **Technical Achievements:**
