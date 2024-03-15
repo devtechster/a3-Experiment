@@ -49,6 +49,7 @@ There's also a huge variance between these charts, chart 7 has the best estimati
 Treemaps
 ===
 The chart below shows log errors of 20 treemaps(by 18 users) along with the bootstraped confidence intervals.
+
 <img src="https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log2.png" alt="image" width="300" height="200">
 
 * The x-axis of the graph shows the average log error, while the y-axis shows the visualization number. Each data point on the graph represents the average log error for a particular visualization, and the error bars represent the 95% confidence interval for that error.
