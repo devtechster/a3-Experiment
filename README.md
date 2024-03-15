@@ -63,7 +63,7 @@ Results
 After examining each trial per visualization type, now we compare visualization types.
 ![image](https://github.com/devtechster/a3-Experiment/assets/77694285/b2a475e6-b525-4ef2-9644-4accac803f11)
 
-
+* We have a different result from the original experiment, meaning that pie chart estimations yield higher errors in our experiment.
 **Technical Achievements:**
 ===
 
