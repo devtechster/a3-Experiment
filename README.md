@@ -63,7 +63,8 @@ Results
 After examining each trial per visualization type, now we compare visualization types.
 ![image](https://github.com/devtechster/a3-Experiment/assets/77694285/5b90ae03-06db-4f8d-9433-4d987342d5b3)
 
-* We have a different result from the original experiment, meaning that pie chart estimations yield higher errors in our experiment.
+* We have a different result from the original experiment.
+* First, pie chart estimations yield higher errors compared to tree map in our experiment, and bar chart estimations have (slightly) higher errors than tree map.
   
 **Technical Achievements:**
 ===
