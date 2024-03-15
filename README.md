@@ -18,8 +18,9 @@ Pie Chart
   
 **Chart 9** 
 <img src="https://github.com/OzgeAygul/a3-Experiment/assets/77694285/bc496848-e379-43ba-9690-0a2721d3d2be" alt="image" width="300" height="200">
-<img src="https://github.com/OzgeAygul/a3-Experiment/assets/77694285/d1bc3ab7-13f0-4e91-b68f-c557752c6d36" alt="image" width="300" height="200">
+
 **Chart 13**
+<img src="https://github.com/OzgeAygul/a3-Experiment/assets/77694285/d1bc3ab7-13f0-4e91-b68f-c557752c6d36" alt="image" width="300" height="200">
 
 
 * The reason that leads to this can be 1) **Position**: When marked slices are adjacent to each other, it could be easier to judge. 2) **Number of data points**: When the number of data points is higher, it may be harder to judge. 3) **Difference**: When there is a significant difference in angles, it is easier to compare.
