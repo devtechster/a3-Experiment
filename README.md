@@ -17,9 +17,11 @@ Pie Chart
 * There is a great variance between charts, for example, charts 9 (having the most accurate estimations) and 13 (having the worst estimations). You can see all the pie charts in the folder.
   
 **Chart 9** 
+
 <img src="https://github.com/OzgeAygul/a3-Experiment/assets/77694285/bc496848-e379-43ba-9690-0a2721d3d2be" alt="image" width="300" height="200">
 
 **Chart 13**
+
 <img src="https://github.com/OzgeAygul/a3-Experiment/assets/77694285/d1bc3ab7-13f0-4e91-b68f-c557752c6d36" alt="image" width="300" height="200">
 
 
@@ -47,7 +49,6 @@ There's also a huge variance between these charts, chart 7 has the best estimati
 Treemaps
 ===
 The chart below shows log errors of 20 treemaps(by 18 users) along with the bootstraped confidence intervals.
-<img src="https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log1.png" alt="image" width="300" height="200">
 <img src="https://github.com/devtechster/a3-Experiment/blob/master/treemaps/log2.png" alt="image" width="300" height="200">
 
 * The x-axis of the graph shows the average log error, while the y-axis shows the visualization number. Each data point on the graph represents the average log error for a particular visualization, and the error bars represent the 95% confidence interval for that error.
